@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeamFit — Interactive Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <div class="topbar-tools">
+      <div class="team-switcher-group">
+        <select id="teamSelect" class="team-select" aria-label="Switch team" onchange="switchTeam(this.value)"></select>
+        <button type="button" class="tool-btn primary-soft" onclick="createNewTeam()">+ สร้างทีมใหม่</button>
+      </div>
+      <div class="right-tools">
+        <button type="button" class="tool-btn" onclick="seedCurrentTeam()">โหลดข้อมูลตัวอย่าง</button>
+        <button type="button" class="tool-btn danger" onclick="resetCurrentTeam()">ล้างข้อมูลทีมนี้</button>
+      </div>
+    </div>
+
+    <header class="header">
+      <h1 class="app-title">TeamFit</h1>
+      <p class="app-subtitle-en">Know your team, commit together, check in, review.</p>
+      <p class="app-subtitle-th">รู้จักทีม ตกลงร่วมกัน เช็กอิน แล้วสรุปงาน</p>
+    </header>
+
+    <nav class="nav-tabs" aria-label="Steps">
+      <button type="button" class="nav-tab active" data-tab="quiz" onclick="switchTab('quiz')">
+        <span class="tab-main">1 Quiz</span>
+        <span class="tab-sub">Know</span>
+      </button>
+      <button type="button" class="nav-tab" data-tab="dna" onclick="switchTab('dna')">
+        <span class="tab-main">2 Team DNA</span>
+        <span class="tab-sub">Know</span>
+      </button>
+      <button type="button" class="nav-tab" data-tab="deadnote" onclick="switchTab('deadnote')">
+        <span class="tab-main">3 DeadNote</span>
+        <span class="tab-sub">Commit · Check</span>
+      </button>
+      <button type="button" class="nav-tab" data-tab="summary" onclick="switchTab('summary')">
+        <span class="tab-main">4 Summary</span>
+        <span class="tab-sub">Review</span>
+      </button>
+    </nav>
+
+    <!-- TAB 1: QUIZ -->
+    <main id="tab-quiz" class="tab-panel active">
+      <div class="card">
+        <label class="name-label-en" for="userName">Your name</label>
+        <span class="name-label-th">ชื่อของคุณ</span>
+        <input
+          id="userName"
+          class="name-input"
+          type="text"
+          maxlength="28"
+          placeholder="e.g. K, Karnsinee"
+          oninput="updateQuizStatus()"
+        />
+
+        <hr class="divider" />
+
+        <div id="quizQuestionsContainer"></div>
+
+        <div class="quiz-footer">
+          <button id="seeResultBtn" type="button" class="submit-btn" disabled onclick="handleSeeResult()">
+            See my result
+          </button>
+          <span id="remainingLabel" class="remaining-text">10 question(s) left · เหลืออีก 10 ข้อ</span>
+        </div>
+      </div>
+
+      <div id="quizResultCard" class="result-card" style="display: none;"></div>
+    </main>
+
+    <!-- TAB 2: TEAM DNA -->
+    <section id="tab-dna" class="tab-panel">
+      <div class="card">
+        <div class="step-kicker">STEP 1 · KNOW</div>
+        <h2 class="section-title">Team DNA</h2>
+        <p id="dnaSummaryLine" class="section-sub">0 member(s) have taken the quiz.</p>
+        <div id="dnaGrid" class="dna-grid"></div>
+      </div>
+
+      <div class="card">
+        <div class="subcard-header-row">
+          <h3 class="subcard-heading">What to watch</h3>
+        </div>
+        <p class="subcard-caption">ข้อควรระวังและจุดบอดในการทำงานร่วมกัน วิเคราะห์จากสัดส่วนบทบาทและสไตล์การสื่อสารของทีม</p>
+        <div id="whatToWatchList" class="watch-list"></div>
+      </div>
+
+      <div class="card">
+        <div class="subcard-header-row">
+          <h3 class="subcard-heading">Suggested roles</h3>
+          <span class="logic-pill">Everyone Assigned · Max-Fit + Orphan Swap</span>
+        </div>
+        <p class="subcard-caption">จัดสรรบทบาทให้สมาชิกทุกคนมีหน้าที่ โดยอิงคะแนนสูงสุดก่อน แล้วเกลี่ยตำแหน่งว่างและสลับสายรองให้คนตกหล่น</p>
+        <ul id="suggestedRolesList" class="suggested-list"></ul>
+        <p class="suggested-footer-note">Use these roles when you write the DeadNote contract. Swap freely if someone wants a different role.</p>
+      </div>
+    </section>
+
+    <!-- TAB 3: DEADNOTE -->
+    <section id="tab-deadnote" class="tab-panel">
+      <div id="deadnoteContractCard" class="card"></div>
+      <div id="deadnoteCheckinCard" class="card"></div>
+    </section>
+
+    <!-- TAB 4: SUMMARY -->
+    <section id="tab-summary" class="tab-panel">
+      <div id="summaryBody"></div>
+    </section>
+  </div>
+
+  <script src="data-store.js"></script>
+  <script src="team-dna.js"></script>
+  <script src="deadnote.js"></script>
+</body>
+</html>
